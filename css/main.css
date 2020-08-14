@@ -190,14 +190,18 @@ header {
     color: royalblue;
 }
 #about .letter {
-    border: 1px solid #333;
-    font-weight: 700;
+    background-color: rgba(255, 255, 255, 0.7);
     line-height: 1.7;
     color: #111;
     margin: 0 10px;
     width: 345px;
-    padding: 15px;
+    padding: 40px 20px;
 }
+#about .letter .title {
+    color: #1200ff;
+    font-weight: 700;
+}
+
 #about .skills {
     width: 710px;
     background-color: #fff;
