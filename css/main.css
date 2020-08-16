@@ -230,11 +230,27 @@ header {
     bottom: 0;
     background-color: royalblue;
 }
-#about .skills .tabContent li {
+#about .skills .tabContent li.tab {
     width: 100%;
     height: 600px;
     padding: 30px;
     display: none;
+}
+#about .skills .tabContent li .images ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+#about .skills .tabContent li .images li {
+    max-width: 250px;
+    height: 150px;
+    margin-right: 10px;
+}
+#about .skills .tabContent li .images .android {
+    align-self: flex-start;
+}
+#about .skills .tabContent li .images li img {
+    height: 100%;
 }
 #about .skills .tabContent li.on {
     display: block;
