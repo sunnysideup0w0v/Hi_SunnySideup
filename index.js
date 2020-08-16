@@ -14,10 +14,17 @@ tabLists.forEach((item,index)=>{
     })
 })
 
-window.addEventListener("wheel",(e)=>{
-    if(e.deltaY>0){
-        document.quertySelector("#about").scrollintoView({behavior:"smooth"})
-    }
-    console.log(e.deltaY);
+let images = document.querySelectorAll("#about .tabContent li .images li img");
+let modal = document.querySelector(".modal");
+images.forEach(img=>{
+    console.log(img.src)
+    img.addEventListener("click",e=>{
+        let modalImg = document.querySelector(".modal .imgBox img");
+        modal.classList.add("on");
+        modalImg.src = img.src;
+    })
 })
-console.log(document.querySelector("#about").offsetTop)
+let btnClose = document.querySelector(".modal .btnClose");
+btnClose.addEventListener("click",()=>{
+    modal.classList.remove("on")
+})
