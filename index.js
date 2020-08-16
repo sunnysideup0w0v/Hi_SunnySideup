@@ -13,3 +13,11 @@ tabLists.forEach((item,index)=>{
         tabContents[index].classList.add("on");
     })
 })
+
+window.addEventListener("wheel",(e)=>{
+    if(e.deltaY>0){
+        document.quertySelector("#about").scrollintoView({behavior:"smooth"})
+    }
+    console.log(e.deltaY);
+})
+console.log(document.querySelector("#about").offsetTop)
