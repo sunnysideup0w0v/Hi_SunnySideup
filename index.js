@@ -30,4 +30,10 @@ let btnClose = document.querySelector(".modal .btnClose");
 btnClose.addEventListener("click",()=>{
     modal.classList.remove("on");
     body.classList.remove("lock");
-})
+});
+
+if(modal.className==="on"){
+    modal.addEventListener("click",()=>{
+        console.log("clicked")
+    })
+}
