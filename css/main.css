@@ -19,7 +19,6 @@ a {
     text-decoration: none;
 }
 section {
-    min-height: 100vh;
     width: calc(100vw - 17px);
     position: relative;
 }
@@ -30,14 +29,6 @@ body.lock section {
     width: 1440px;
     margin: 0 auto;
 }
-.readyPage {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3.6rem;
-    font-weight: 700;
-}
 header {
     position: fixed;
     width: 100%;
@@ -46,7 +37,7 @@ header {
 .gnbList {
     font-size: 2.0rem;
     font-weight: 700;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 1);
     display: flex;
     width: 100%;
     justify-content: center;
@@ -83,6 +74,7 @@ header {
     text-align: center;
     color: #fff;
     position: relative;
+    height: 100vh;
 }
 #main .txtBox {
     position: absolute;
@@ -142,9 +134,33 @@ header {
 #main .scroll {
     display: block;
     position: absolute;
-    bottom: 50px;
+    bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
+}
+#main .scroll:after {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 30px;
+    height: 50px;
+    border: 1px solid #fff;
+    border-radius: 35%;
+    top: -250%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#main .scroll:before {
+    position: absolute;
+    display: block;
+    content: "";
+    width: 3px;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: scrollMove 1.5s infinite;
 }
 #about {
     background: url('../images/bernard-hermant-PrZw3_3xUxI-unsplash.jpg');
@@ -152,6 +168,7 @@ header {
     background-size: cover;
     background-position: 50% 50%;
     position: relative;
+    height: 100vh;
 }
 #about::before{
     content: "";
@@ -167,7 +184,7 @@ header {
 #about .container {
     display: flex;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     padding-top: 100px;
 }
 #about .container > div {
@@ -349,6 +366,13 @@ footer address span:after {
     }
 }
 
-/* @keyframes scrollMove {
-    
-} */
+@keyframes scrollMove {
+    from {
+        top: -220%;
+        opacity: 0.5;
+    }
+    to {
+        top: -190%;
+        opacity: 1;
+    }
+}
