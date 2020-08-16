@@ -11,6 +11,9 @@ body {
     font-family: 'Lato','Nanum Gothic' sans-serif;
     line-height: 1.5;
 }
+body.lock {
+    overflow: hidden;
+}
 a {
     color: inherit;
     text-decoration: none;
@@ -19,6 +22,9 @@ section {
     min-height: 100vh;
     width: calc(100vw - 17px);
     position: relative;
+}
+body.lock section {
+    width: 100vw;
 }
 .container {
     width: 1440px;
@@ -88,6 +94,10 @@ header {
 #main .txtBox p {
     animation: fadeIn 2s;
     animation-fill-mode: forwards;
+}
+#main .txtBox p.top {
+    opacity: 0;
+    animation-delay: 0.5s;
 }
 #main .txtBox p.middle {
     opacity: 0;
