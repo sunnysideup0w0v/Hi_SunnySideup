@@ -4,7 +4,6 @@
 html {
     font-size: 10px;
     color: #333;
-    scroll-behavior: smooth;
 }
 body {
     font-size: 1.6rem;
@@ -35,16 +34,19 @@ header {
     z-index: 333;
 }
 .gnbList {
-    font-size: 2.0rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    background-color: rgba(255, 255, 255, 1);
+    /* background:linear-gradient(30deg, rgba(161,140,209,0.6), rgba(251,194,235,0.5)); */
+    box-shadow: 0 0 20px 2px rgba(0, 0, 0, 0.2);
+    background: rgba(255,255,255,0.3);
     display: flex;
     width: 100%;
     justify-content: center;
+    color: #fff;
 }
 .gnbList li a {
     display: block;
-    padding: 35px 40px;
+    padding: 25px 35px;
     position: relative;
     transition: 0.25s ease;
 }
@@ -52,8 +54,8 @@ header {
     display: block;
     position: absolute;
     content: "";
-    height: 3px;
-    background: #a170b7;
+    height: 2px;
+    background: #fff;
     bottom: 0;
     left: 0;
     right: 0;
@@ -61,7 +63,7 @@ header {
     transform: scale(0);
 }
 .gnbList li a:hover {
-    color: #a170b7;
+    color: #fff;
 }
 .gnbList li a:hover:after {
     transform: scale(1);
@@ -137,20 +139,32 @@ header {
     bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
 }
-#main .scroll:after {
+#main .mouse {
+    display: block;
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 50px;
+}
+#main .mouse:after {
+    /* 마우스 몸통 */
     position: absolute;
     display: block;
     content: "";
-    width: 30px;
-    height: 50px;
+    width: 100%;
+    height: 100%;
     border: 1px solid #fff;
     border-radius: 35%;
-    top: -250%;
     left: 50%;
     transform: translateX(-50%);
+    animation:  mouseMove 1.5s infinite;
 }
-#main .scroll:before {
+#main .mouse:before {
+    /* 마우스 휠 */
     position: absolute;
     display: block;
     content: "";
@@ -242,6 +256,20 @@ header {
 #about .skills .tabList li {
     padding: 12px 30px;
     cursor: pointer;
+}
+#about .skills .tabList li:hover {
+    color: rgba(65, 105, 225, 0.712);
+    position: relative;
+}
+#about .skills .tabList li:hover:after {
+    position: absolute;
+    display: block;
+    content: "";
+    left: 5px;
+    right: 5px;
+    height: 2px;
+    bottom: 0;
+    background-color: rgba(65, 105, 225, 0.452);
 }
 #about .skills .tabList li.on {
     color: royalblue;
@@ -368,11 +396,20 @@ footer address span:after {
 
 @keyframes scrollMove {
     from {
-        top: -220%;
+        top: 20%;
         opacity: 0.5;
     }
     to {
-        top: -190%;
+        top: 60%;
         opacity: 1;
+    }
+}
+
+@keyframes mouseMove {
+    from {
+        bottom: 0%;
+    }
+    to {
+        bottom: -30%;
     }
 }
