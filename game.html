@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{padding: 0; margin: 0;}
+        #myCanvas {background-color: #eee; display: block; margin: 0 auto;}
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="480px" height="320px"></canvas>
+    <script>
+        let canvas = document.getElementById("myCanvas");
+        let ctx = canvas.getContext("2d");
+        let x = canvas.width/2;
+        let y = canvas.height-30;
+        let dx = 2;
+        let dy = -2;
+        let ballRadius = 10;
+        let paddleHeight = 10;
+        let paddleWidth = 75;
+        let paddleX = (canvas.width-paddleWidth)/2;
+        let rightPressed = false;
+        let leftPressed = false;
+        
+        //벽돌 그리기
+        let brickRowCount = 3;
+        let brickColumnCount = 5;
+        let brickWidth = 75;
+        let brickHeight = 20;
+        let brickPadding = 10;
+        let brickOffsetTop = 30;
+        let brickOffsetLeft = 30;
+        
+        //점수 승패가르기
+        let score = 0;
+
+        //생명 
+        let lives = 3;
+
+        let bricks = [];
+        for(var c=0; c<brickColumnCount; c++) {
+            bricks[c] = [];
+            for(var r=0; r<brickRowCount; r++) {
+                bricks[c][r] = { x: 0, y: 0, status: 1 };
+            }
+        }
+
+
+        function drawBall(){
+            ctx.beginPath();
+            ctx.arc(x,y,ballRadius,0,Math.PI*2);
+            ctx.fillStyle="#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+        function draw(){
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            drawBricks();
+            drawBall();
+            drawPaddle();
+            drawScore();
+            drawLives();
+            collisionDetection();
+            if(x+dx>canvas.width-ballRadius||x+dx<ballRadius){
+                // 공이 좌우 면과 부딪혔을 때 방향이 바뀌게 함
+                dx=-dx;
+            }
+            if(y+dy<ballRadius){
+                // 공이 상단 면과 부딪혔을 경우
+                dy = -dy;
+            } else if (y+dy > canvas.height-ballRadius){
+                if(x>paddleX&&x<paddleX+paddleWidth){
+                    // 패들 위치에 맞았을 경우
+                    dy = -dy;
+                } else {
+                    // 패들 위치를 제외한 하단 면에 맞았을 경우
+                    lives--;
+                    if(!lives){    
+                        alert("GAME OVER");
+                        document.location.reload();
+                        clearInterval(interval);
+                    } else {
+                        x = canvas.width/2;
+                        y = canvas.height - 30;
+                        dx=2;
+                        dy=-2;
+                        paddleX = (canvas.width-paddleWidth)/2;
+                    }
+                }
+            }
+            //키가 눌려서 > true가 되면 > paddleX의 값이 변환됨.
+            if(rightPressed&&paddleX<canvas.width-paddleWidth){
+                // rightPressed(오른쪽키가 눌리고)가 true, paddle이 오른쪽 끝까지 갔을 경우
+                paddleX+=7;
+            } else if (leftPressed&&paddleX>0){
+                // leftPressed가 true, paddle이 왼쪽 끝까지 갔을 경우
+                paddleX-=7;
+            }
+            x+=dx;
+            y+=dy;
+        }
+        function drawPaddle(){
+            ctx.beginPath();
+            ctx.rect(paddleX,canvas.height-paddleHeight,paddleWidth,paddleHeight);
+            ctx.fillStyle="#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function drawBricks() {
+            for(let c=0;c<brickColumnCount;c++){
+                for(let r=0; r<brickRowCount;r++){
+                    if(bricks[c][r].status == 1){
+                        let brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+                        let brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+                        bricks[c][r].x=brickX;
+                        bricks[c][r].y=brickY;
+                        ctx.beginPath();
+                        ctx.rect(brickX,brickY,brickWidth,brickHeight);
+                        ctx.fillStyle="#0095DD";
+                        ctx.fill();
+                        ctx.closePath();
+                    }
+                }
+            }
+        }
+
+        function drawLives() {
+            ctx.font = "16px Arial";
+            ctx.fillStyle = "#0095DD";
+            ctx.fillText("Lives:"+lives,canvas.width-65,20);
+        }
+
+        document.addEventListener("keydown",keyDownHandler,false);
+        document.addEventListener("keyup",keyUpHandler,false);
+        document.addEventListener("mousemove",mouseMoveHandler,false);
+        
+        function keyDownHandler(e){
+            if(e.keyCode == 39){
+                rightPressed = true;
+            } else if (e.keyCode == 37){
+                leftPressed = true;
+            }
+        }
+        function keyUpHandler(e){
+            if(e.keyCode==39){
+                rightPressed = false;
+            } else if(e.keyCode==37){
+                leftPressed = false;
+            }
+        }
+
+        function mouseMoveHandler(e){
+            let relativeX = e.clientX - canvas.offsetLeft;
+            if(relativeX>0&&relativeX<canvas.width){
+                paddleX = relativeX - paddleWidth/2;
+            }
+        }
+
+        function collisionDetection(){
+            for(let c=0; c<brickColumnCount;c++){
+                for(let r=0;r<brickRowCount;r++){
+                    let b = bricks[c][r];
+                    // calculations
+                    if(b.status==1){
+                        if(x>b.x&&x<b.x+brickWidth&&y>b.y&&y<b.y+brickHeight) {
+                            dy = -dy;
+                            b.status=0;
+                            score++;
+                            if(score == brickRowCount*brickColumnCount) {
+                                alert("YOU WIN, CONGRATS!");
+                                document.location.reload();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        function drawScore(){
+            ctx.font = "16px Arial";
+            ctx.fillStyle = "#0095DD";
+            ctx.fillText("Score: "+score,8,20)
+        }
+        setInterval(draw,10);
+    </script>
+</body>
+</html>
