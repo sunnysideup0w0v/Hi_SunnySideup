@@ -51,6 +51,13 @@
                 card.classList.add("isflipped")
             } 
         })
+
+        var cell = document.getElementById("cell");
+
+        while ( cell.hasChildNodes() )
+        {
+            cell.removeChild( cell.firstChild );       
+        }
     </script>
 </body>
 </html>
